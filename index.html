@@ -134,7 +134,7 @@
     <div id="overlay">
         <div id="rules-box">
             <h2>OSTRZEŻENIE: TOTALNY CHAOS</h2>
-            <p>1. Nie klnij<br>2. Klikasz = 10% szansy na SKOLIMA 🔥<br>3. Nie ma litości.</p>
+            <p>1. Nie klnij<br>2. Klikasz = 5% szansy na SKOLIMA 🔥<br>3. Nie ma litości.</p>
             <input type="checkbox" id="c" onchange="toggleStart()">
             <label for="c">Akceptuję ryzyko Skolima</label><br><br>
             <button id="start-btn" disabled>ROZPOCZYNAM ARMAGEDON</button>
@@ -173,7 +173,7 @@
             "https://www.myinstants.com/media/sounds/airhorn.mp3"
         ];
 
-        // Piosenki Skolima – 10% szansy na jedną z nich
+        // Piosenki Skolima – 5% szansy
         const skolimSongs = [
             "https://www.youtube.com/watch?v=WyF8qI7oecM", // Temperatura
             "https://www.youtube.com/watch?v=3oqUe1fR5dA", // Wyglądasz tak pięknie
@@ -210,14 +210,14 @@
             // Dźwięk przy każdym kliknięciu
             playRandomSound();
 
-            // 10% szansy na Skolima
-            if (Math.random() < 0.10) {
+            // 5% szansy na Skolima
+            if (Math.random() < 0.05) {
                 const song = skolimSongs[Math.floor(Math.random() * skolimSongs.length)];
                 setTimeout(() => {
                     window.open(song, '_blank');
                 }, 400);
             }
-            // Dodatkowe 0,01% na podwójny Skolim (dla żartu)
+            // 0,01% na podwójny Skolim (legendarny moment)
             else if (Math.random() < 0.0001) {
                 const song1 = skolimSongs[Math.floor(Math.random() * skolimSongs.length)];
                 const song2 = skolimSongs[Math.floor(Math.random() * skolimSongs.length)];
