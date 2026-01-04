@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>meme-cliker</title>
-    <!-- Biblioteka do screenshotów -->
+    <title>MEME CLICKER: FINAL DYMY EDITION</title>
+    <!-- Biblioteka do screenshotów (opcjonalna) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Impact&family=Orbitron:wght@900&display=swap');
@@ -48,7 +48,6 @@
 
         h1, h2, #counter { text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0; color: #0ff; }
         
-        /* Overlay z zasadami */
         #overlay {
             position: fixed;
             top: 0; left: 0;
@@ -75,7 +74,7 @@
             box-shadow: 0 0 30px #f00;
         }
         
-        #start-btn.enabled { background: #0f0; color: #000; border-color: #0f0; box-shadow: 0 0 25px #0f0; animation: pulse 1.5s infinite; }
+        #start-btn.enabled { background: #0f0; color: #000; box-shadow: 0 0 25px #0f0; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 25px #0f0; } 50% { box-shadow: 0 0 40px #0f0; } 100% { box-shadow: 0 0 25px #0f0; } }
         
         #stats { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); padding: 10px 20px; border: 2px solid #0f0; border-radius: 10px; font-size: 20px; z-index: 100; }
@@ -130,13 +129,13 @@
         </div>
     </div>
 
-    <!-- Overlay z zasadami -->
+    <!-- Overlay startowy -->
     <div id="overlay">
         <div id="rules-box">
             <h2>OSTRZEŻENIE: TOTALNY CHAOS</h2>
-            <p>1. Nie klnij<br>2. Klikasz = 5% szansy na SKOLIMA 🔥<br>3. Nie ma litości.</p>
+            <p>1. Nie klnij<br>2. Klikaj ile wlezie<br>3. Dymy idą full</p>
             <input type="checkbox" id="c" onchange="toggleStart()">
-            <label for="c">Akceptuję ryzyko Skolima</label><br><br>
+            <label for="c">Akceptuję dymy</label><br><br>
             <button id="start-btn" disabled>ROZPOCZYNAM ARMAGEDON</button>
         </div>
     </div>
@@ -161,23 +160,16 @@
         const clickTexts = [
             "DYMY!", "SIX SEVEN", "PROGI SYP", "PANEWKA STUKA", "ASTRA OPC", 
             "MŁODY 6-7", "GRZEGORZ B.", "+1 COIN", "ŁADNY DZISIAJ", "NO SIEMA", 
-            "KOX", "LEGENDARNIE", "TURBO LECI", "DYMY IDĄ"
+            "KOX", "LEGENDARNIE", "TURBO LECI", "DYMY IDĄ", "ELO MORDO"
         ];
 
-        // Dźwięki memiczne przy każdym kliku
+        // Memiczne dźwięki przy każdym kliknięciu
         const clickSounds = [
             "https://cdn.myinstants.com/instants/audio/six-seven-73913.mp3",
             "https://cdn.myinstants.com/instants/audio/jixaw-metal-pipe-falling-sound-28270.mp3",
             "https://cdn.myinstants.com/instants/audio/walking-on-gravel-62088.mp3",
             "https://cdn.myinstants.com/instants/audio/vine-boom-91928.mp3",
             "https://www.myinstants.com/media/sounds/airhorn.mp3"
-        ];
-
-        // Piosenki Skolima – 5% szansy
-        const skolimSongs = [
-            "https://www.youtube.com/watch?v=WyF8qI7oecM", // Temperatura
-            "https://www.youtube.com/watch?v=3oqUe1fR5dA", // Wyglądasz tak pięknie
-            "https://www.youtube.com/watch?v=8f1zN5Kk_4U"  // Lecz to nie to
         ];
 
         function createClickEffect(x, y) {
@@ -207,25 +199,8 @@
             const y = rect.top + rect.height / 2;
             createClickEffect(x, y);
 
-            // Dźwięk przy każdym kliknięciu
+            // Tylko dźwięk – bez żadnych odnośników
             playRandomSound();
-
-            // 5% szansy na Skolima
-            if (Math.random() < 0.05) {
-                const song = skolimSongs[Math.floor(Math.random() * skolimSongs.length)];
-                setTimeout(() => {
-                    window.open(song, '_blank');
-                }, 400);
-            }
-            // 0,01% na podwójny Skolim (legendarny moment)
-            else if (Math.random() < 0.0001) {
-                const song1 = skolimSongs[Math.floor(Math.random() * skolimSongs.length)];
-                const song2 = skolimSongs[Math.floor(Math.random() * skolimSongs.length)];
-                setTimeout(() => {
-                    window.open(song1, '_blank');
-                    window.open(song2, '_blank');
-                }, 400);
-            }
         });
 
         function toggleContact(show) {
