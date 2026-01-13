@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MEME CLICKER</title>
-    <!-- Biblioteka do screenshotów (opcjonalna) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Impact&family=Orbitron:wght@900&display=swap');
@@ -49,64 +48,57 @@
         h1, h2, #counter { text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0; color: #0ff; }
         
         #overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-            transition: opacity 0.5s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px); transition: opacity 0.5s ease;
         }
-        #overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+        #overlay.hidden { opacity: 0; pointer-events: none; }
+
         #rules-box {
-            background: #111;
-            padding: 30px;
-            border: 4px solid #f00;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 400px;
+            background: #111; padding: 30px; border: 4px solid #f00;
+            border-radius: 20px; width: 90%; max-width: 400px;
             box-shadow: 0 0 30px #f00;
         }
         
-        #start-btn.enabled { background: #0f0; color: #000; box-shadow: 0 0 25px #0f0; animation: pulse 1.5s infinite; }
+        #start-btn.enabled { 
+            background: #0f0; color: #000; box-shadow: 0 0 25px #0f0; 
+            animation: pulse 1.5s infinite; 
+        }
         @keyframes pulse { 0% { box-shadow: 0 0 25px #0f0; } 50% { box-shadow: 0 0 40px #0f0; } 100% { box-shadow: 0 0 25px #0f0; } }
         
-        #stats { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); padding: 10px 20px; border: 2px solid #0f0; border-radius: 10px; font-size: 20px; z-index: 100; }
+        #stats { 
+            position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.8); padding: 10px 20px; 
+            border: 2px solid #0f0; border-radius: 10px; font-size: 20px; z-index: 100; 
+        }
         #counter { font-size: 80px; margin: 20px 0; font-weight: 900; }
-        .main-btn { padding: 40px 80px; font-size: 36px; background: linear-gradient(#333, #111); color: #0ff; border: 5px solid #0ff; border-radius: 25px; margin: 20px; position: relative; cursor: pointer; }
-        #shop { margin-top: 30px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 90%; max-width: 600px; }
+        
+        .main-btn { 
+            padding: 40px 80px; font-size: 36px; 
+            background: linear-gradient(#333, #111); color: #0ff; 
+            border: 5px solid #0ff; border-radius: 25px; margin: 20px; 
+            position: relative; cursor: pointer; 
+        }
+        
+        #shop { 
+            margin-top: 30px; display: grid; grid-template-columns: repeat(2, 1fr); 
+            gap: 15px; width: 90%; max-width: 600px; 
+        }
         
         .upgrade {
-            background: #111;
-            color: #0f0;
-            padding: 15px;
-            border: 2px solid #0f0;
-            border-radius: 15px;
-            font-size: 14px;
-            min-height: 80px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: all 0.3s;
-            cursor: pointer;
+            background: #111; color: #0f0; padding: 15px; border: 2px solid #0f0;
+            border-radius: 15px; font-size: 14px; min-height: 80px;
+            display: flex; flex-direction: column; justify-content: center;
+            transition: all 0.3s; cursor: pointer;
         }
         .upgrade span { font-size: 12px; color: #0bf; margin-top: 5px; }
 
         .upgrade.afford-no {
-            opacity: 0.4;
-            border-color: #555;
-            color: #555;
-            cursor: not-allowed;
+            opacity: 0.4; border-color: #555; color: #555; cursor: not-allowed;
         }
         .upgrade.afford-yes {
-            border-color: #0f0;
-            box-shadow: 0 0 20px #0f0;
+            border-color: #0f0; box-shadow: 0 0 20px #0f0;
             animation: pulseGreen 1.5s infinite;
         }
         @keyframes pulseGreen {
@@ -129,7 +121,6 @@
         </div>
     </div>
 
-    <!-- Overlay startowy -->
     <div id="overlay">
         <div id="rules-box">
             <h2>OSTRZEŻENIE: TOTALNY CHAOS</h2>
@@ -154,8 +145,13 @@
     </div>
 
     <script>
-        let clicks = 0, coins = 0, autoCPS = 0, clickPower = 1;
+        let clicks = 0;
+        let coins = 0;
+        let autoCPS = 0;
+        let clickPower = 1;
         const WIN_GOAL = 99999999;
+
+        let lastTriggered = 0;
 
         const clickTexts = [
             "DYMY!", "SIX SEVEN", "PROGI SYP", "PANEWKA STUKA", "ASTRA OPC", 
@@ -163,7 +159,6 @@
             "KOX", "LEGENDARNIE", "TURBO LECI", "DYMY IDĄ", "ELO MORDO"
         ];
 
-        // Memiczne dźwięki przy każdym kliknięciu
         const clickSounds = [
             "https://cdn.myinstants.com/instants/audio/six-seven-73913.mp3",
             "https://cdn.myinstants.com/instants/audio/jixaw-metal-pipe-falling-sound-28270.mp3",
@@ -189,6 +184,34 @@
             sound.play().catch(() => {});
         }
 
+        function trollYouAreIdiot() {
+            const milestone = Math.floor(clicks / 100) * 100;
+            
+            if (clicks < 200 || milestone <= lastTriggered) return;
+            
+            lastTriggered = milestone;
+
+            let windowsCount = 1;
+            if (milestone >= 600) windowsCount = 2;
+            if (milestone >= 900) windowsCount = 3;
+            if (milestone >= 1300) windowsCount = 4;
+
+            for (let i = 0; i < windowsCount; i++) {
+                setTimeout(() => {
+                    let win = window.open('https://youareanidiot.cc', '_blank', 'width=800,height=600');
+                    if (!win || win.closed || typeof win.closed == 'undefined') {
+                        window.open('https://youareanidiot.cc', '_blank');
+                    }
+                }, i * 400);
+            }
+
+            // dramatyczny efekt
+            document.body.style.background = 'linear-gradient(135deg, #f00, #600)';
+            setTimeout(() => {
+                document.body.style.background = 'linear-gradient(135deg, #000, #111)';
+            }, 1500);
+        }
+
         document.getElementById('click-btn').addEventListener('click', function(e) {
             clicks += clickPower;
             coins += clickPower;
@@ -199,8 +222,8 @@
             const y = rect.top + rect.height / 2;
             createClickEffect(x, y);
 
-            // Tylko dźwięk – zero przekierowań
             playRandomSound();
+            trollYouAreIdiot();
         });
 
         function toggleContact(show) {
@@ -217,9 +240,7 @@
                 btn.onclick = function() {
                     const overlay = document.getElementById('overlay');
                     overlay.classList.add('hidden');
-                    setTimeout(() => {
-                        overlay.style.display = 'none';
-                    }, 500);
+                    setTimeout(() => overlay.style.display = 'none', 500);
                 };
             }
         }
@@ -268,6 +289,7 @@
                 clicks += autoCPS; 
                 coins += autoCPS; 
                 updateUI(); 
+                trollYouAreIdiot();
             }
         }, 1000);
 
